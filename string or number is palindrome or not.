@@ -1,0 +1,73 @@
+one.java
+import java.rmi.*;
+
+public interface one extends Remote {
+    public int palin(String a) throws RemoteException;
+}
+two.java
+import java.rmi.*;
+import java.rmi.server.*;
+
+public class two extends UnicastRemoteObject implements one {
+    public two() throws RemoteException {}
+
+    public int palin(String a) throws RemoteException {
+        String reversed = new StringBuilder(a).reverse().toString();
+        return a.equals(reversed) ? 1 : 0;
+    }
+}
+rmiserver.java
+import java.rmi.*;
+
+public class rmiserver {
+    public static void main(String args[]) {
+        try {
+            two obj = new two();
+            Naming.rebind("palin", obj);
+            System.out.println("Object registered.");
+        } catch (Exception e) {
+            System.out.println("Exception: " + e);
+        }
+    }
+}
+rmiclient.java
+import java.rmi.*;
+
+public class rmiclient {
+    public static void main(String args[]) {
+        try {
+            one obj = (one) Naming.lookup("rmi://localhost/palin");
+            int result = obj.palin("madam");
+
+            if (result == 1)
+                System.out.println("The string is a palindrome.");
+            else
+                System.out.println("The string is NOT a palindrome.");
+        } catch (Exception e) {
+            System.out.println("Exception: " + e);
+        }
+    }
+}
+
+STEPS:
+1.	Download jdk 18 from oracle 
+remember the password and email of the oracle account 
+email: jadhavasmita.1272004@gmail.com
+password: Oracle1234@
+2.	Create 4 .java files – one.java , two.java , rmiserver.java , rmiclient .java
+save all in one folder name exp5 or palindrome 
+3.	Now open cmd 
+        cd (folder path(exp5))
+        set path=(path of bin file of jdk )
+Note : To find path of bin file of jdk- C drive -> program files-> java -> jdk 18 -> bin file -> copy path
+4.	In cmd, 
+javac *.java (4 more classes will be created)
+rmic two (two.stub file will be created)
+start rmiregistry
+java rmiserver
+ 
+5. When you start registry new cmd window opens 
+cd
+set path
+java rmiclient
+ 
