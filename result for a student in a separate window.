@@ -1,0 +1,99 @@
+package exp3;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
+import java.io.*;
+
+public class StudentMarksSystem extends Frame {
+    Label l1, l2, l3, l4, l5;
+    TextField tf1, tf2, tf3, tf4, tf5;
+    TextArea area2;
+
+    StudentMarksSystem() {
+        // Labels
+        l1 = new Label("Student Marks");
+        l1.setBounds(50, 50, 200, 20);
+
+        l2 = new Label("Name of the Student:");
+        l2.setBounds(50, 100, 150, 20);
+
+        l3 = new Label("Advanced Java:");
+        l3.setBounds(50, 150, 150, 20);
+
+        l4 = new Label("Data Structure:");
+        l4.setBounds(50, 200, 150, 20);
+
+        l5 = new Label("OOP:");
+        l5.setBounds(50, 250, 150, 20);
+
+        // Text fields
+        tf1 = new TextField(); tf1.setBounds(200, 100, 200, 20);
+        tf2 = new TextField(); tf2.setBounds(200, 150, 200, 20);
+        tf3 = new TextField(); tf3.setBounds(200, 200, 200, 20);
+        tf4 = new TextField(); tf4.setBounds(200, 250, 200, 20);
+
+        // Buttons
+        Button btnGenerate = new Button("Generate Result");
+        btnGenerate.setBounds(200, 300, 120, 30);
+
+        Button btnReset = new Button("Reset");
+        btnReset.setBounds(330, 300, 80, 30);
+
+        // Output Area
+        area2 = new TextArea();
+        area2.setBounds(50, 350, 400, 150);
+
+        // Add components
+        add(l1); add(l2); add(l3); add(l4); add(l5);
+        add(tf1); add(tf2); add(tf3); add(tf4);
+        add(btnGenerate); add(btnReset); add(area2);
+
+        // Button Action Listeners
+        btnGenerate.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                String name = tf1.getText();
+                String aj = tf2.getText();
+                String ds = tf3.getText();
+                String oop = tf4.getText();
+
+                area2.setText("----- Result -----\n");
+                area2.append("Name: " + name + "\n");
+                area2.append("Advanced Java: " + aj + "\n");
+                area2.append("Data Structures: " + ds + "\n");
+                area2.append("OOP: " + oop + "\n");
+
+                // Save to file
+                try {
+                    FileWriter fw = new FileWriter("marks_result.txt", true);
+                    fw.write(area2.getText() + "\n");
+                    fw.close();
+                    JOptionPane.showMessageDialog(null, "Data saved successfully!");
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
+            }
+        });
+
+        btnReset.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                tf1.setText(""); tf2.setText(""); tf3.setText(""); tf4.setText("");
+                area2.setText("");
+            }
+        });
+
+        // Frame setup
+        setSize(500, 550);
+        setLayout(null);
+        setVisible(true);
+        setTitle("Student Marks Entry");
+
+        addWindowListener(new WindowAdapter() {
+            public void windowClosing(WindowEvent e) { System.exit(0); }
+        });
+    }
+
+    public static void main(String[] args) {
+        new StudentMarksSystem();
+    }
+}
