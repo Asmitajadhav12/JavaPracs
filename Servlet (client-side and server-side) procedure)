@@ -1,1 +1,92 @@
+ Step 1: Create a Dynamic Web Project
+Open Eclipse
 
+Click: File → New → Dynamic Web Project
+
+Name it: Servlet_Demo1
+
+Click Next → Next again
+
+✅ Check Generate web.xml deployment descriptor
+
+Click Finish
+
+✅ Step 2: Create a Servlet (Validation.java)
+Right-click Java Resources → src → New → Servlet
+
+Name it: Validation
+
+Click Next → Next
+
+Check the box for doPost() method
+
+Click Finish
+
+📄 Paste This Code in Validation.java
+java
+Copy
+Edit
+import java.io.*;
+import javax.servlet.*;
+import javax.servlet.http.*;
+
+public class Validation extends HttpServlet {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        response.setContentType("text/html");
+        PrintWriter out = response.getWriter();
+
+        String username = request.getParameter("username");
+        String password = request.getParameter("password");
+
+        out.println("<html><body>");
+        out.println("<h2>Username: " + username + "</h2>");
+        out.println("<h2>Password: " + password + "</h2>");
+        out.println("</body></html>");
+    }
+}
+✅ Step 3: Update web.xml (Servlet Mapping)
+Open WebContent/WEB-INF/web.xml and add the servlet mapping:
+
+xml
+Copy
+Edit
+<web-app>
+  <servlet>
+    <servlet-name>Validation</servlet-name>
+    <servlet-class>Validation</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>Validation</servlet-name>
+    <url-pattern>/Validation</url-pattern>
+  </servlet-mapping>
+</web-app>
+✅ Step 4: Create the HTML Form (Index.html)
+Right-click WebContent → New → HTML File
+
+Name it: Index.html
+
+Click Finish
+
+📄 Paste This Code in Index.html
+html
+Copy
+Edit
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Login Form</title>
+</head>
+<body>
+    <h2>Enter Login Details</h2>
+    <form action="Validation" method="post">
+        Username: <input type="text" name="username"><br><br>
+        Password: <input type="password" name="password"><br><br>
+        <input type="submit" value="Login">
+    </form>
+</body>
+</html>
+▶️ Step 5: Run the Project
+Right-click the project Servlet_Demo1 → Run As → Run on Server
+
+Select your Tomcat v9.0 Server → Click Finish
